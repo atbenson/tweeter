@@ -1,0 +1,69 @@
+tweeter.php - Automated Twitter updater v1.0
+
+ABOUT
+PHP script that uses the Twitter API and cron to automatically post updates to Twitter.
+
+REQUIREMENTS (all free)
+1. A Twitter account that will post your updates.
+		The script connects to a Twitter application that is tied to this account.
+2. A server running PHP (ideally PHP5).
+3. A server running cron (this can be the same server as the PHP server).
+		Unix-based servers have cron installed by default. Windows servers may have 
+		scheduling software as well.
+4. A Twitter application.
+		To create your application:
+			1. Go to http://dev.twitter.com/
+			2. Click the "Register an app" button.
+			3. Fill out the form to create the application.
+					-Application type: Browser
+					-Callback URL: [your homepage]
+					-Default access type: Read & Write
+			4. Accept the terms of use.
+			5. On the success page, you will see your Consumer Key and Consumer Secret 
+    			   (they look something like iEc56VpybsniRHNhLLKLQ and 
+			   Ih2Pgf23pt7m60S74mF8In02HFrOe6wevBbbriZDPNA). Make a note of them.
+			6. Click the My Access Token link.
+			7. Note your Access Token (oauth_token) and Access Token Secret (oauth_token_secret). 
+			   They look something like 14195522-haP1VVWjw9hVQ1zw9zQcu62xfOk2Jtiybn6TeObDN 
+			   and 2oWI7YqYB2Fa660N1zzWwZlVxRm0idlOym2qW6us.
+5. The OAuth.php and twitteroauth.php libraries.
+		These are included in this zip. Updated versions are available at the project's source repository: 
+		https://github.com/abraham/twitteroauth/tree/master/twitteroauth
+
+INSTALLATION
+1. Write your tweets and save them, one tweet per line, in a text file (twitterposts.txt).
+		The tweet_counter.xls spreadsheet includes a character-counting function that ensures
+		your tweets do not exceed the 140-character maximum.
+2. Upload the tweet file to your webspace.
+3. Add your Twitter app information to tweeter.php
+		i. Open the tweeter.php file in a text editor.
+		ii. Insert your Consumer Key, Consumer Secret, Access Token, and Access Token Secret 
+		    in the spaces in lines 4-7:
+			$consumer_key = "from http://dev.twitter.com/";
+			$consumer_secret = "from http://dev.twitter.com/";
+			$access_key = "from http://dev.twitter.com/";
+			$access_secret = "from http://dev.twitter.com/";
+		iii. Insert the path to your .txt file in line 8: 
+			[$lines = file ("path/to/.txt/file/containing/posts");]
+			You can use either a relative link or a full link (including http://)
+		iv. If necessary, change the timezone in line 11 to your local timezone.
+			(In most cases, you will not need to change this. A full list of PHP 
+			timezone names are available at: 
+			http://php.net/manual/en/timezones.php)
+		v. Save and close the file.
+4. Upload tweeter.php, OAuth.php, and twitteroauth.php to your webspace.
+5. Navigate to tweeter.php and check for errors.
+		The script runs when the page is accessed.) Open your Twitter page to ensure 
+		that the tweet went through.
+6. If the script is working, create a cron job that uses cURL, wget (or another command-line 
+   web-access tool) to connect to tweeter.php on a regular schedule.
+		A typical cron entry would look like this:
+			0 * * * * wget -O /dev/null http://www.yourdomain.com/tweeter.php
+		This will run tweeter.php every hour.
+		
+
+NOTES
+1. tweeter.php logs posting errors in a file located in its directory. If your tweets are not appearing, check tweeterErrors.log.
+2. Twitter limits the number of requests programs can make to the API. To avoid problems, do not set tweeter.php to run more frequently than every half hour. 
+	(*/30 * * * *  wget -O /dev/null http://www.yourdomain.com/tweeter.php)
+3. The Twitter API automatically blocks the same tweet from being posted more than once in a row. This is most likely the reason for an hourly update not to occur. You can reduce the number of missed updates by writing more tweets in the twitterposts.txt file.

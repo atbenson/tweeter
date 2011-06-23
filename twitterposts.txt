@@ -1,0 +1,3 @@
+Place each entry on a single line.
+Enter tweets in this file, which is read by tweeter.php when it runs.Tweets can be a maximum of 140 characters long.
+If the tweet is too long, it will not post.Twitter only accepts unstyled text, so do not italicize or bold anything.To save space, use a URL shortener like is.gd or bit.ly to reduce the lengths of your URLs.
