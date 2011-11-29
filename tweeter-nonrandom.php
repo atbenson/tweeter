@@ -6,7 +6,8 @@ $consumer_secret = "from http://dev.twitter.com/";
 $access_key = "from http://dev.twitter.com/";
 $access_secret = "from http://dev.twitter.com/";
 
-$lines = file ("path/to/.txt/file/containing/posts");
+$f_status = "path/to/.txt/file/containing/posts";
+$lines = file($f_status);
 
 date_default_timezone_set('America/New_York');
 $tweetContentDate = date('m/d/Y h:i:s a', time());
