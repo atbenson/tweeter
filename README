@@ -46,6 +46,10 @@ INSTALLATION
 		iii. Insert the path to your .txt file in line 8: 
 			[$lines = file ("path/to/.txt/file/containing/posts");]
 			You can use either a relative link or a full link (including http://)
+			Do you need post an image in your tweeet? No worry.
+			You just need add an "|" after your text, with the image url.
+			For example:
+			    My first post with image.|https://eneias.com/N.png
 		iv. If necessary, change the timezone in line 11 to your local timezone.
 			(In most cases, you will not need to change this. A full list of PHP 
 			timezone names are available at: 

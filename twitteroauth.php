@@ -19,6 +19,7 @@ class TwitterOAuth {
   public $url;
   /* Set up the API root URL. */
   public $host = "https://api.twitter.com/1.1/";
+  public $host_upload = "https://upload.twitter.com/1.1/";
   /* Set timeout default. */
   public $timeout = 30;
   /* Set connect timeout. */
@@ -158,6 +159,17 @@ class TwitterOAuth {
   }
 
   /**
+   * POST wrapper for oAuthRequest.
+   */
+  function upload($url, $parameters = array()) {
+    $response = $this->oAuthRequest($url, 'POST', $parameters, $this->host_upload);
+    if ($this->format === 'json' && $this->decode_json) {
+      return json_decode($response);
+    }
+    return $response;
+  }
+
+  /**
    * DELETE wrapper for oAuthReqeust.
    */
   function delete($url, $parameters = array()) {
@@ -171,9 +183,12 @@ class TwitterOAuth {
   /**
    * Format and sign an OAuth / API request
    */
-  function oAuthRequest($url, $method, $parameters) {
+  function oAuthRequest($url, $method, $parameters, $host_api="") {
+
+    $host_api = empty($host_api) ? $this->host : $this->host_upload;
+
     if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
-      $url = "{$this->host}{$url}.{$this->format}";
+      $url = "{$host_api}{$url}.{$this->format}";
     }
     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
     $request->sign_request($this->sha1_method, $this->consumer, $this->token);
